@@ -223,3 +223,36 @@ module cap_cylinder(r=1, h=1, center=false){
 		}
 	}
 }
+
+module y_holder_switch(){
+    
+    width=22;
+    thick = 7;
+    wire = 5;
+    
+    switch_height=8;
+    
+    difference() {
+        union() {
+            translate([-wire/2-10,0,0])
+            difference() {
+            cube([20,width+2*wall,1],true);
+                cylinder(r=m3_rad+slop,h=2,center=true);
+            }
+            
+            translate([0,0,switch_height/2+wall/2]) cube([thick+wall*2, width+wall*2,switch_height+wall], center=true);
+        }
+        
+        difference(){
+            union(){
+                //endstop
+                translate([0,0,switch_height/2+wall]) cube([thick, width,switch_height+wall], center=true);
+                //wire pass
+                translate([-(thick-wire)/2,0,switch_height/2-.1]) cube([wire, width,switch_height], center=true);
+            }
+            
+            //retainer bump
+            translate([-thick/2-wall/5,0,switch_height*3/4]) scale([1,1,2]) sphere(r=wall/2);
+        }
+    }
+}
